@@ -1,5 +1,6 @@
 from src.utils import add_journal, add_pubmed, add_trials
 import re
+import pandas as pd
 
 
 def graph_init(drugs_list):
@@ -29,40 +30,48 @@ def graph_creation(drugs_df, trials_df, pubmed_df):
     Returns:
     output_graph (dict): Graph with links between drugs and their respective mentions in clinical trials, medical publications and journals.
     """
-    drugs_list = drugs_df["drug"].tolist()
+
+    drugs_list = drugs_df["drug"].values.tolist()
     output_graph = graph_init(drugs_list)
 
-    for index, row in trials_df.iterrows():
-        # We compare the drug name with the words in each title
-        for words in re.sub("[^\w]", " ", row["scientific_title"]).lower().split():
+    trials_titles = trials_df["scientific_title"].values
+    trials_dates = pd.to_datetime(trials_df["date"].values)
+    trials_journals = trials_df["journal"].values
+
+    for i in range(len(trials_df)):
+        for words in re.sub("[^\w]", " ", trials_titles[i]).lower().split():
             if words in drugs_list:
                 add_trials(
                     output_graph,
                     words,
-                    row["scientific_title"],
-                    row["date"].strftime("%d/%m/%Y"),
+                    trials_titles[i],
+                    trials_dates[i].strftime("%d/%m/%Y"),
                 )
                 add_journal(
                     output_graph,
                     words,
-                    row["journal"],
-                    row["date"].strftime("%d/%m/%Y"),
+                    trials_journals[i],
+                    trials_dates[i].strftime("%d/%m/%Y"),
                 )
 
-    for index, row in pubmed_df.iterrows():
-        for words in re.sub("[^\w]", " ", row["title"]).lower().split():
+    pubmed_titles = pubmed_df["title"].values
+    pubmed_dates = pd.to_datetime(pubmed_df["date"].values)
+    pubmed_journals = pubmed_df["journal"].values
+
+    for i in range(len(pubmed_df)):
+        for words in re.sub("[^\w]", " ", pubmed_titles[i]).lower().split():
             if words in drugs_list:
                 add_pubmed(
                     output_graph,
                     words,
-                    row["title"],
-                    row["date"].strftime("%d/%m/%Y"),
+                    pubmed_titles[i],
+                    pubmed_dates[i].strftime("%d/%m/%Y"),
                 )
                 add_journal(
                     output_graph,
                     words,
-                    row["journal"],
-                    row["date"].strftime("%d/%m/%Y"),
+                    pubmed_journals[i],
+                    pubmed_dates[i].strftime("%d/%m/%Y"),
                 )
 
     return output_graph

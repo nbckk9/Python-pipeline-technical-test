@@ -7,14 +7,18 @@ import json
 
 def main():
     # We preprocess the data
+    print("Preprocessing the data...")
     trials_df = preprocess_trials("data/clinical_trials.csv")
     drugs_df = preprocess_drugs("data/drugs.csv")
     pubmed_df = preprocess_pubmed("Data/pubmed.csv", "Data/pubmed.json")
     # We create the graph
+    print("Creating the graph...")
     output_graph = graph_creation(drugs_df, trials_df, pubmed_df)
+
     # We save the graph
     with open("Data/graph.json", "w") as outfile:
         json.dump(output_graph, outfile)
+    print("Pipeline execution finished.")
 
 
 if __name__ == "__main__":

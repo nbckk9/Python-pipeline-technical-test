@@ -1,5 +1,5 @@
 SELECT 
-  DISTINCT date, 
+  date, 
   SUM(prod_price * prod_qty) as ventes 
 from 
   TRANSACTIONS 
