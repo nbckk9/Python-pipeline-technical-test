@@ -22,15 +22,15 @@ The graph is then created with the ouputs of all the preprocessings.
 This project was developped with Python 3.8.9.
 
 You can clone this repo by downloading from github or simply clone it from your terminal : 
-'''git clone https://github.com/nbckk9/Python_test_DE'''
+```git clone https://github.com/nbckk9/Python_test_DE```
 
 To use this project, you need the pandas v1.4.2 library installed.
 
-'''pip install -r requirements.txt'''
+```pip install -r requirements.txt```
 
 Then to run the data pipeline, make sure to be in the repo base folder and then run the main.py : 
 
-'''python main.py'''
+```python main.py```
 
 
 # To go further 
