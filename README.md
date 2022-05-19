@@ -40,6 +40,7 @@ To make this data pipeline able to handle large volumes of data we could :
 * Partition the data input files to parallelize processings
 * You could implement multithreading or multiprocessing and use multiple workers
 * Pandas is not suited for large volumes of data, you could use Dask or PySpark for example
+* The processing is done using a mix of pandas, numpy and standard python. For larger volume, to make it efficient, you would need to change it to use only pandas or pySpark. 
 * In the code, you could split the graph creation step in two separate steps, one for pubmed and one for clinical trials and add an extra step of merging to create the complete graph
 
 # Part 2 : SQL
